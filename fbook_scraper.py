@@ -1,7 +1,6 @@
 #facebook scraper for DOJO NFZ
 
 # import some Python dependencies
-
 import urllib2
 import json
 import datetime
@@ -10,15 +9,17 @@ import time
 import re
 import pprint
 
-with open('secrets.csv','rb') as fg:
-	readr = csv.reader(fg, delimiter=',')
+access_token = ''
+
+with open('secrets.csv','rb') as csvfile:
+	readr = csv.reader(csvfile, delimiter=',')
 	for x in readr:
-		print x
+		print x[0]
+		access_token = x[0]
 
 group_id = '688926244534060'
-#access_token 
 
-def testFacebookPageData(page_id, access_token):
+def getFacebookPageLinks(group_id, access_token):
 	#construct the URL string
 	base = "https://graph.facebook.com/v2.1"
 	node = "/"+group_id+"/feed"
@@ -36,8 +37,8 @@ def testFacebookPageData(page_id, access_token):
 	with open('nfz_links.csv', 'w')  as ff:
 		writr = csv.writer(ff, delimiter='\t')
 		for x in urls:
-			writr.writerow(x)
+			writr.writerow([x])
 			print x
 		
-testFacebookPageData(page_id, access_token)
+getFacebookPageLinks(group_id, access_token)
 
